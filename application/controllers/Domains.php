@@ -1,20 +1,23 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Home extends CI_Controller {
+class Domains extends CI_Controller {
 	public function index()
 	{
-		$data['page'] = '';
+		$data['page'] = 'Domains';
 		$data['title'] = $this->config->item('title');
 		$this->load->view('header', $data);
 		$this->load->view('navbar', $data);
-		$this->load->view('home', $data);
+		$this->load->view('domains', $data);
 		$this->load->view('Footer');
 	}
 
-	function records()
+	function records($domain = '',$action = '', $record = '')
 	{
-		$data['title'] = $this->config->item('title').' records';
+		//var_dump($domain);
+		$data['records'] = $this->M_db->get_records($domain);
+		$data['page'] = 'Records';
+		$data['title'] = $this->config->item('title').' '.$data['page'];
 		$this->load->view('header', $data);
 		$this->load->view('navbar', $data);
 		$this->load->view('records', $data);
