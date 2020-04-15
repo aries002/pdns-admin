@@ -15,9 +15,9 @@ class Domains extends CI_Controller {
 	function records($page = null)
 	{
 		//var_dump($domain);
+		$data['url'] = base_url().'tes/records';
 		$domain=null;
 		$cari = null;
-		$get = '';
 		if($this->input->get()){
 
 			if($this->input->get('cari') != null){
@@ -38,31 +38,56 @@ class Domains extends CI_Controller {
 			// 	$page = $this->input->get('page');
 			// }
 		}
-		if($cari != null){
-			$get='?';
-			foreach ($cari as $key => $value) {
-				$get = $get.$key.'='.$value.'&';
-			}
-		}
-		$jumlah = $this->M_db->hitung_records($cari);
-		
-		$konfig['base_url'] = base_url().'domains/records'.$get;
-		$konfig['total_rows'] = $jumlah;
-		$konfig['per_page'] = 10;
-		$from = $page;
-		$this->pagination->initialize($konfig);
-		$data['records'] = $this->M_db->get_data_records($konfig['per_page'],$from,$cari);
+		$hitung = $this->M_db->hitung_records($cari);
 
+
+		//pagignation
+		$data_per_page = 20;
+		$cfg = array(
+		 
+		'base_url'=>base_url().'records',
+		 	
+		 
+		'per_page'=> $data_per_page,
+		 
+		'total_rows' => $hitung
+		 
+		);
+		if (count($_GET) > 0) $cfg['suffix'] = '?' . http_build_query($_GET, '', "&");
+		$cfg['first_url'] = $cfg['base_url'].'?'.http_build_query($_GET);
+
+		$cfg['next_link'] = 'Selanjutnya';
+		$cfg['prev_link'] = 'Sebelumnya';
+		$cfg['first_link'] = 'Awal';
+		$cfg['last_link'] = 'Akhir';
+		$cfg['full_tag_open'] = '<ul class="pagination">';
+		$cfg['full_tag_close'] = '</ul>';
+		$cfg['num_tag_open'] = '<li>';
+		$cfg['num_tag_close'] = '</li>';
+		$cfg['cur_tag_open'] = '<li class="active"><a href="#">';
+		$cfg['cur_tag_close'] = '</a></li>';
+		$cfg['prev_tag_open'] = '<li>';
+		$cfg['prev_tag_close'] = '</li>';
+		$cfg['next_tag_open'] = '<li>';
+		$cfg['next_tag_close'] = '</li>';
+		$cfg['last_tag_open'] = '<li>';
+		$cfg['last_tag_open'] = '<li>';
+		$cfg['first_tag_open'] = '<li>';
+		$cfg['first_tag_open'] = '<li>';
+
+
+		$this->pagination->initialize($cfg);	
+
+		//end pagignationx
+
+		$data['records'] = $this->M_db->get_data_records($cfg['per_page'],$page,$cari);
 		$data['domain'] = $domain;
 		$data['domain_list'] = $this->M_db->cari_domain();
-		//$rec = $this->M_db->get_records($cari);
-		//var_dump($rec);
-		//$data['records'] = $rec['result'];
 		$data['page'] = 'Records';
 		$data['title'] = $this->config->item('title').' '.$data['page'];
 		$this->load->view('header', $data);
 		$this->load->view('navbar', $data);
-		$this->load->view('records', $data);
+		$this->load->view('tes/records', $data);
 		$this->load->view('Footer');
 	}
 }
