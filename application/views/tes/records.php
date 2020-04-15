@@ -10,11 +10,11 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-								<form action="<?php echo base_url() ?>domains/records" class="form-inline" role="form">
+								<form action="<?php echo $url ?>" class="form-inline" role="form">
 									<label for="domain">
 										Domain : 
 									</label>
-									<select class="form-control" id="domain" name="_domain" onchange="location = '<?php echo base_url() ?>domains/records/?_domain='+this.value;">
+									<select class="form-control" id="domain" name="_domain" onchange="location = '<?php echo $url ?>?_domain='+this.value;">
 										<option <?php if ($domain == '') echo 'selected' ?> disabled> -- Pilih Domain -- </option>
 										<?php
 										foreach ($domain_list as $key1) {
@@ -101,7 +101,9 @@
 			</div>
 		</div>
 		<div class="row">
-			<?php echo $this->pagination->create_links(); ?>
+			<nav aria-label="Page navigation">
+                    <?php echo $this->pagination->create_links(); ?>
+            </nav>
 		</div>
 	</div>
 </div>
