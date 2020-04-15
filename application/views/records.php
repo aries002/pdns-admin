@@ -1,5 +1,5 @@
 <?php
-//var_dump($domain);
+
 ?>
 
 <div class="row">
@@ -32,16 +32,16 @@
 										Tipe : 
 									</label>
 									<select class="form-control" id="tipe" name="tipe">
-										<option <?php if ($domain != '' || 1 == 1) echo 'selected' ?> disabled> -- Pilih Tipe -- </option>
-										<option>A</option>
-										<option>AAAA</option>
-										<option>CNAME</option>
-										<option>MX</option>
-										<option>NS</option>
-										<option>PTR</option>
-										<option>SOA</option>
-										<option>SRV</option>
-										<option>TXT</option>
+										<option <?php if($tipe == null) echo 'selected' ?> value=''>Semua</option>
+										<option <?php if($tipe == 'A') echo "selected" ?>>A</option>
+										<option <?php if($tipe == 'AAAA') echo "selected" ?>>AAAA</option>
+										<option <?php if($tipe == 'CNAME') echo "selected" ?>>CNAME</option>
+										<option <?php if($tipe == 'MX') echo "selected" ?>>MX</option>
+										<option <?php if($tipe == 'NS') echo "selected" ?>>NS</option>
+										<option <?php if($tipe == 'PTR') echo "selected" ?>>PTR</option>
+										<option <?php if($tipe == 'SOA') echo "selected" ?>>SOA</option>
+										<option <?php if($tipe == 'SRV') echo "selected" ?>>SRV</option>
+										<option <?php if($tipe == 'TXT') echo "selected" ?>>TXT</option>
 									</select>
 									<label for="cari">Name : </label>
 									<input type="search" name="cari" id="cari" class="form-control" value="" title="">
@@ -59,15 +59,22 @@
 		if ($records == null) {
 			?>
 		<div class="row">
-			<div class="alert alert-info">
+			<div class="alert alert-warning">
 				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 				<strong>Record tidak ditemukan</strong>
 			</div>
 		</div>
 			<?php
 		}
+		else{
 		?>
-		
+		<div class="row">
+			<div class="alert alert-info">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				<strong><?php echo $total ?> record ditemukan.</strong>
+			</div>
+		</div>
+	<?php } ?>
 		<div class="row">
 			<div class="table-responsive">
 				<table class="table table-hover">

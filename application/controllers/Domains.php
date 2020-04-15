@@ -15,7 +15,8 @@ class Domains extends CI_Controller {
 	function records($page = null)
 	{
 		//var_dump($domain);
-		$data['url'] = base_url().'tes/records';
+		$data['url'] = base_url().'domains/records';
+		$data['tipe'] = null;
 		$domain=null;
 		$cari = null;
 		if($this->input->get()){
@@ -27,12 +28,12 @@ class Domains extends CI_Controller {
 				$cari['content'] = $this->input->get('cari2');
 			}
 			if($this->input->get('tipe') != null){
-				$cari['type'] = $this->input->get('tipe');
+				$data['tipe'] = $cari['type'] = $this->input->get('tipe');
 			}
 			if ($this->input->get('_domain') != null) {
 				//var_dump($this->input->get('_domain'));
-				$cari['domain_id'] = $this->input->get('_domain');
-				$domain = $this->input->get('_domain');
+				
+				$domain = $cari['domain_id'] = $this->input->get('_domain');
 			}
 			// if($this->input->get('page') != null){
 			// 	$page = $this->input->get('page');
@@ -45,7 +46,7 @@ class Domains extends CI_Controller {
 		$data_per_page = 20;
 		$cfg = array(
 		 
-		'base_url'=>base_url().'records',
+		'base_url'=>base_url().'domain/records',
 		 	
 		 
 		'per_page'=> $data_per_page,
@@ -81,13 +82,14 @@ class Domains extends CI_Controller {
 		//end pagignationx
 
 		$data['records'] = $this->M_db->get_data_records($cfg['per_page'],$page,$cari);
+		$data['total'] = $hitung;
 		$data['domain'] = $domain;
 		$data['domain_list'] = $this->M_db->cari_domain();
 		$data['page'] = 'Records';
 		$data['title'] = $this->config->item('title').' '.$data['page'];
 		$this->load->view('header', $data);
 		$this->load->view('navbar', $data);
-		$this->load->view('tes/records', $data);
+		$this->load->view('records', $data);
 		$this->load->view('Footer');
 	}
 }
