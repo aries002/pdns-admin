@@ -2,7 +2,7 @@
 
 ?>
 <div class="row">
-	<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+	<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<a class="btn btn-primary" data-toggle="modal" href='#tambah'>Tambah Baru</a>
@@ -11,7 +11,7 @@
 	</div>
 </div>
 <div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10" align="auto">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-10" align="auto">
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="panel panel-default">
@@ -41,15 +41,15 @@
 									</label>
 									<select class="form-control" id="tipe" name="tipe">
 										<option <?php if($tipe == null) echo 'selected' ?> value=''>Semua</option>
-										<option value="A"> <?php if($tipe == 'A') echo "selected" ?>>A</option>
-										<option value="AAA" <?php if($tipe == 'AAAA') echo "selected" ?>>AAAA</option>
-										<option value="CNAME" <?php if($tipe == 'CNAME') echo "selected" ?>>CNAME</option>
-										<option value="MS" <?php if($tipe == 'MX') echo "selected" ?>>MX</option>
-										<option value="NS" <?php if($tipe == 'NS') echo "selected" ?>>NS</option>
-										<option value="PTR" <?php if($tipe == 'PTR') echo "selected" ?>>PTR</option>
-										<option value="SOA" <?php if($tipe == 'SOA') echo "selected" ?>>SOA</option>
-										<option value="SRV" <?php if($tipe == 'SRV') echo "selected" ?>>SRV</option>
-										<option value="TXT" <?php if($tipe == 'TXT') echo "selected" ?>>TXT</option>
+										<option value="A" 		<?php if($tipe == 'A') echo "selected" ?>>A</option>
+										<option value="AAAA" 	<?php if($tipe == 'AAAA') echo "selected" ?>>AAAA</option>
+										<option value="CNAME" 	<?php if($tipe == 'CNAME') echo "selected" ?>>CNAME</option>
+										<option value="MS" 		<?php if($tipe == 'MX') echo "selected" ?>>MX</option>
+										<option value="NS" 		<?php if($tipe == 'NS') echo "selected" ?>>NS</option>
+										<option value="PTR" 	<?php if($tipe == 'PTR') echo "selected" ?>>PTR</option>
+										<option value="SOA" 	<?php if($tipe == 'SOA') echo "selected" ?>>SOA</option>
+										<option value="SRV" 	<?php if($tipe == 'SRV') echo "selected" ?>>SRV</option>
+										<option value="TXT" 	<?php if($tipe == 'TXT') echo "selected" ?>>TXT</option>
 									</select>
 									<label for="cari">Name : </label>
 									<input type="search" name="cari" id="cari" class="form-control" value="" title="">
@@ -63,74 +63,84 @@
 				</div>	
 			</div>
 		</div>
-		<?php
-		if ($records == null) {
-			?>
 		<div class="row">
-			<div class="alert alert-warning">
-				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-				<strong>Record tidak ditemukan</strong>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<?php
+				if ($records == null) {
+				?>
+			
+				<div class="alert alert-warning">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					<strong>Record tidak ditemukan</strong>
+				</div>
+		
+				<?php
+				}
+				else{
+				?>
+			
+				<div class="alert alert-info">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					<strong><?php echo $total ?> record ditemukan.</strong>
+				</div>
+				<?php 
+				} 
+				?>	
 			</div>
 		</div>
-			<?php
-		}
-		else{
-		?>
 		<div class="row">
-			<div class="alert alert-info">
-				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-				<strong><?php echo $total ?> record ditemukan.</strong>
-			</div>
-		</div>
-	<?php } ?>
-		<div class="row">
-			<div class="table-responsive">
-				<table class="table table-hover">
-					<thead>
-						<tr>
-							<th width="4%">id</th>
-							<th>Name</th>
-							<th width="6%">Type</th>
-							<th>Content</th>
-							<th width="8%">TTL</th>
-							<th width="8%"></th>
-						</tr>
-					</thead>
-					<tbody>
-						<?php
-						foreach ($records as $key) {
-							if ($key->disabled === '1') {
-								echo '<tr class="danger">';
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th width="4%">id</th>
+								<th>Name</th>
+								<th width="6%">Type</th>
+								<th>Content</th>
+								<th width="8%">TTL</th>
+								<th width="8%"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php
+							foreach ($records as $key) {
+								if ($key->disabled === '1') {
+									echo '<tr class="danger">';
+								}
+								else{
+									echo "<tr>";
+								}
+								echo "<td>$key->id. </td>";
+								echo "<td>$key->name</td>";
+								echo "<td>$key->type</td>";
+								echo "<td>$key->content</td>";
+								echo "<td>$key->ttl</td>";
+								?>
+								<td>
+									<a class="btn btn-small  btn-block btn-default" data-toggle="modal" href='#modal<?php echo $key->id ?>'>
+										<svg class="bi bi-pencil-square" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor">
+										  <path d="M15.502 1.94a.5.5 0 010 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 01.707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 00-.121.196l-.805 2.414a.25.25 0 00.316.316l2.414-.805a.5.5 0 00.196-.12l6.813-6.814z"/>
+										  <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 002.5 15h11a1.5 1.5 0 001.5-1.5v-6a.5.5 0 00-1 0v6a.5.5 0 01-.5.5h-11a.5.5 0 01-.5-.5v-11a.5.5 0 01.5-.5H9a.5.5 0 000-1H2.5A1.5 1.5 0 001 2.5v11z" clip-rule="evenodd"/>
+										</svg>
+									</a>
+								</td>
+							<?php
+								echo "</tr>";
 							}
-							else{
-								echo "<tr>";
-							}
-							echo "<td>$key->id. </td>";
-							echo "<td>$key->name</td>";
-							echo "<td>$key->type</td>";
-							echo "<td>$key->content</td>";
-							echo "<td>$key->ttl</td>";
 							?>
-							<td>
-								<a class="btn btn-small  btn-block btn-default" data-toggle="modal" href='#modal<?php echo $key->id ?>'>
-									<svg class="bi bi-pencil-square" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor">
-									  <path d="M15.502 1.94a.5.5 0 010 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 01.707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 00-.121.196l-.805 2.414a.25.25 0 00.316.316l2.414-.805a.5.5 0 00.196-.12l6.813-6.814z"/>
-									  <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 002.5 15h11a1.5 1.5 0 001.5-1.5v-6a.5.5 0 00-1 0v6a.5.5 0 01-.5.5h-11a.5.5 0 01-.5-.5v-11a.5.5 0 01.5-.5H9a.5.5 0 000-1H2.5A1.5 1.5 0 001 2.5v11z" clip-rule="evenodd"/>
-									</svg>
-								</a>
-							</td>
-						<?php
-							echo "</tr>";
-						}
-						?>
-					</tbody>
-				</table>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
+
 		<div class="row">
-			<nav aria-label="Page navigation">
-                    <?php echo $this->pagination->create_links(); ?>
-            </nav>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<nav aria-label="Page navigation">
+	                    <?php echo $this->pagination->create_links(); ?>
+	            </nav>
+	        </div>
 		</div>
 	</div>
 </div>
@@ -138,7 +148,7 @@
 
 <div class="modal fade" id="tambah">
 	<div class="modal-dialog">
-		<form method="post" action="<?php echo base_url('domains/add_record?link='.$url2)?>">
+		<form method="post" action="<?php echo base_url('data_process/add_record?link='.$url2)?>">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

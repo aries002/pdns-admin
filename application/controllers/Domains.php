@@ -5,13 +5,40 @@ class Domains extends CI_Controller {
 	public function index($id=null)
 	{
 		$data['page'] = 'Domains';
-		var_dump($id);
 		$data['title'] = $this->config->item('title');
+		$data['db_domain'] = $this->M_db->cari_domain();
 		$this->load->view('header', $data);
 		$this->load->view('navbar', $data);
 		$this->load->view('domains', $data);
 		$this->load->view('Footer');
 	}
+
+	function edit($id='')
+	{
+		if($id === ''){
+			header("location: ".base_url().'domains');
+		}
+		$data['page'] = 'Domains';
+		$data['title'] = $this->config->item('title');
+		$cari['id'] = $id;
+		foreach ($this->M_db->cari_domain($cari) as $key);
+		$data['domain'] = $key;
+		$this->load->view('header', $data);
+		$this->load->view('navbar', $data);
+		$this->load->view('domain_edit', $data);
+		$this->load->view('Footer');
+	}
+
+	function tambah()
+	{
+		$data['page'] = 'Domains';
+		$data['title'] = $this->config->item('title');
+		$this->load->view('header', $data);
+		$this->load->view('navbar', $data);
+		$this->load->view('domain_add', $data);
+		$this->load->view('Footer');
+	}
+
 
 	function records($page = null)
 	{
@@ -103,83 +130,4 @@ class Domains extends CI_Controller {
 
 		$this->load->view('Footer');
 	}
-
-	public function add_record()
-	{
-		$add = null;
-		$status = null;
-		if ($this->input->post() != null) {
-			if (($this->input->post('name') != null) && ($this->input->post('content') != null) && ($this->input->post('type') != null) && ($this->input->post('ttl') != null) && ($this->input->post('prio') != null) && ($this->input->post('domain') != null)) {
-				$add['name'] 	= $this->input->post('name');
-				$add['content'] = $this->input->post('content');
-				$add['type'] 	= $this->input->post('type');
-				$add['ttl'] 	= $this->input->post('ttl');
-				$add['prio'] 	= $this->input->post('prio');
-				$add['domain_id'] 	= $this->input->post('domain');
-				$add['disabled'] = 0;
-				if($this->M_db->add_record($add)){
-					$status = 'success';
-				}
-			}
-		}
-
-		$link = base_url();
-		if ($this->input->get('link') != null) {
-			$link = $this->input->get('link');
-		}
-		header("location: ".$link);
-	}
-
-	public function edit_record()
-	{
-		$add = null;
-		$status = null;
-		if ($this->input->post() != null) {
-			if (($this->input->post('name') != null) && ($this->input->post('content') != null) && ($this->input->post('type') != null) && ($this->input->post('ttl') != null) && ($this->input->post('prio') != null) && ($this->input->post('id') != null)) {
-				$add['name'] 	= $this->input->post('name');
-				$add['content'] = $this->input->post('content');
-				$add['type'] 	= $this->input->post('type');
-				$add['ttl'] 	= $this->input->post('ttl');
-				$add['prio'] 	= $this->input->post('prio');
-				$where['id'] 	= $this->input->post('id');
-				if($this->M_db->edit_record($add,$where) == 'success'){
-					$status = 'success';
-				}
-			}
-		}
-		$link = base_url();
-		if ($this->input->get('link') != null) {
-			$link = $this->input->get('link');
-		}
-		header("location: ".$link);
-	}
-
-	function delete_record($id='')
-	{
-		if ($this->input->get() === null) {
-			header("location: ".base_url());
-		}
-		elseif ($this->input->get('link') != null) {
-			$link = $this->input->get('link');
-			$this->M_db->delete_record($id);
-			header('location: '.$link);
-		}
-		else{
-			header("location: ".base_url());
-		}
-	}
-
-	function dissable_record($id='')
-	{
-		if ($this->input->get('link') != null) {
-			$link = $this->input->get('link');
-			$a = $this->M_db->disable_record($id);
-			// var_dump($a);
-			header('location: '.$link);
-		}
-		else{
-			header("location: ".base_url());
-		}
-	}
 }
-

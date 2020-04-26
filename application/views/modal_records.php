@@ -1,7 +1,7 @@
 <div class="modal fade" id="<?php echo $id ?>">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<form action="<?php echo base_url('domains/edit_record?link='.$url2) ?>" method="post">
+			<form action="<?php echo base_url('data_process/edit_record?link='.$url2) ?>" method="post">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					<h4 class="modal-title">Edit <?php echo $name; ?></h4>
@@ -49,8 +49,8 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<a class="btn btn-danger" href="<?php echo base_url().'domains/delete_record/'.$data->id.'?link='.$url2 ?>" role="button">Delete</a>
-					<a class="btn btn-info" href="<?php echo base_url().'domains/dissable_record/'.$data->id.'?link='.$url2 ?>" role="button">
+					<a class="btn btn-danger" href="<?php echo base_url().'data_process/delete_record/'.$data->id.'?link='.$url2 ?>" role="button">Delete</a>
+					<a class="btn btn-info" href="<?php echo base_url().'data_process/dissable_record/'.$data->id.'?link='.$url2 ?>" role="button">
 						<?php if ($data->disabled === '1') {
 							echo 'Enable';
 						}

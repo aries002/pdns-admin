@@ -1,20 +1,16 @@
 <?php
 class M_db extends CI_model
 {
-	public function get_records($where=null, $start = 0,$lim = 20)
+	public function get_records($where=null)
 	{
 		//var_dump($where);
-		if($where==null){
-			$this->db->limit($lim,$start);
-			$res = $this->db->get('records');
+		if ($where === null) {
+			return false;
 		}
-		else{
-			$this->db->limit($lim,$start);
-			$this->db->like($where);
-			$res = $this->db->get('records');
-		}
-		$ret['total_row'] = $res->num_rows();
-		$ret['result'] = $res->result();
+		$this->db->where($where);
+		$get = $this->db->get('records');
+		$ret['get'] = $get->result();
+		$ret['num'] = $get->num_rows();
 		return $ret;
 	}
 
@@ -34,12 +30,14 @@ class M_db extends CI_model
 		return $this->db->get('records', $number, $offset)->result();
 	}
 
-	function cari_domain($domain=null, $start=0, $lim = 100)
+	function cari_domain($domain=null, $start=null, $lim = null)
 	{
 		if($domain != null){
 			$this->db->where($domain);
 		}
-		$this->db->limit($lim, $start);
+		if($start != null){
+			$this->db->limit($lim, $start);
+		}
 		return $this->db->get('domains')->result();
 	}
 
@@ -107,5 +105,43 @@ class M_db extends CI_model
 		}
 	}
 
+	function konfig($item='',$change='')
+	{
+		if ($item === '') {
+			return 'error';
+		}
+		elseif ($change != '') {
+			$this->db->where('item',$item);
+			$update = array('value' => $change);
+			$this->db->update('konfig', $update);
+			return TRUE;
+		}
+		else{
+			$this->db->where('item',$item);
+			foreach ($this->db->get('konfig')->result() as $key);
+			return $key->value;
+		}
+	}
+
+	function add_domain($upload=null)
+	{
+		return $this->db->insert('domains',$upload);
+	}
+
+	function rem_domain($id='')
+	{
+		if ($id === '') {
+			return 'error';
+		}
+		else{
+			$this->db->where('id',$id);
+			if($this->db->delete('domains')){
+				return 'success';
+			}
+			else{
+				return 'failed';
+			}
+		}
+	}
 
 }
